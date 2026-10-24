@@ -1,0 +1,30 @@
+name: Cambiar dominio
+# Desde el móvil: GitHub → zykmm/kae-datos → Actions → «Cambiar dominio» → Run workflow → escribe el dominio nuevo.
+# Firma la config con el secreto CLAVE_DATOS y la publica aquí; los teléfonos la toman en ≤ 6 h (o al abrir la app).
+on:
+  workflow_dispatch:
+    inputs:
+      dominio:
+        description: 'Dominio nuevo de AnimeAV1 (con https://)'
+        required: true
+permissions:
+  contents: write
+concurrency: datos
+jobs:
+  cambiar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install cryptography
+      - name: Firmar la config con el dominio nuevo
+        env:
+          CLAVE_DATOS: ${{ secrets.CLAVE_DATOS }}
+        run: python3 nube/cambiar_dominio.py "${{ github.event.inputs.dominio }}"
+      - name: Publicar
+        run: |
+          git config user.name kae
+          git config user.email kae@users.noreply.github.com
+          git add datos.json
+          git commit -m "dominio: ${{ github.event.inputs.dominio }}"
+          git push

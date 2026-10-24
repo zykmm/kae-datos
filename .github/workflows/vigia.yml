@@ -1,0 +1,25 @@
+name: Vigía de AnimeAV1
+# Cada 2 h, en los servidores de GitHub (gratis en repos públicos; no necesita el PC encendido).
+on:
+  schedule:
+    - cron: '17 */2 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: datos
+jobs:
+  vigia:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Comprobar AnimeAV1
+        env:
+          NTFY_TEMA: ${{ secrets.NTFY_TEMA }}
+        run: python3 nube/vigia_nube.py
+      - name: Guardar el estado si cambió
+        run: |
+          git config user.name kae
+          git config user.email kae@users.noreply.github.com
+          git add nube/estado.json 2>/dev/null || true
+          git diff --cached --quiet || (git commit -m "vigía: estado" && git push)
