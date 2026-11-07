@@ -122,7 +122,7 @@ footer { border-top: 1px solid var(--line); padding-block: 24px 34px; color: var
         <p class="intro">Kae no está en Play Store, así que Android te pide confirmar. Son cuatro pasos y solo se hace una vez.</p>
       </div>
       <ol class="steps">
-        <li><div><b>Abre el archivo descargado</b><span>Toca kae-4.0.1.apk en la notificación de la descarga.</span></div></li>
+        <li><div><b>Abre el archivo descargado</b><span>Toca el archivo de Kae en la notificación de la descarga.</span></div></li>
         <li><div><b>Permite instalar desde el navegador</b><span>Si Android te lo pide, activa el interruptor y vuelve atrás.</span></div></li>
         <li><div><b>Confirma en Play Protect</b><span>Si avisa de una app desconocida, toca «Más detalles» e «Instalar de todos modos».</span></div></li>
         <li><div><b>Abre Kae e inicia sesión con Google</b><span>Tu historial y Mi lista vuelven solos. Sin cuenta, empiezas de cero.</span></div></li>
@@ -137,7 +137,8 @@ footer { border-top: 1px solid var(--line); padding-block: 24px 34px; color: var
         <p class="intro">Desde esta versión, las siguientes se instalan desde la propia app.</p>
       </div>
       <ol class="log">
-        <li><div class="ver">4.0.1<small>nov 2026</small></div><p>Sinopsis en español, historial con todos los episodios vistos y, si el teléfono cierra la app, vuelves al episodio donde estabas.</p></li>
+        <li><div class="ver">4.0.1<small>nov 2026</small></div><p>Barra inferior nueva, volver atrás sigue tu dedo, Continuar viendo con todos tus animes y el tiempo desde que los viste, y más episodios con sinopsis.</p></li>
+        <li><div class="ver">4.0.0<small>nov 2026</small></div><p>Sinopsis en español, historial con todos los episodios vistos y, si el teléfono cierra la app, vuelves al episodio donde estabas.</p></li>
         <li><div class="ver">3.6.0<small>oct 2026</small></div><p>Botón de episodio anterior, autoavance fiable al terminar, sincronización entre dispositivos, reproductor más limpio en vertical y portadas HD de especiales y temporadas nuevas.</p></li>
         <li><div class="ver">3.5.5<small>oct 2026</small></div><p>Inicio y pantalla de bienvenida con imágenes al instante, también en tabletas.</p></li>
         <li><div class="ver">3.5.4<small>oct 2026</small></div><p>Explorar y portadas al instante, carrusel centrado en los personajes y arreglos de seguridad.</p></li>
@@ -181,7 +182,8 @@ footer { border-top: 1px solid var(--line); padding-block: 24px 34px; color: var
   } else {
     boton.addEventListener("click", () => {
       // El navegador no le dice a la página si la descarga se aceptó o se canceló: no se afirma ninguna de las dos cosas.
-      decir("¿Aceptaste la descarga?", "Si Android te preguntó, toca «Descargar». Cuando termine, toca «Abrir» y después «Instalar». Si la cancelaste o no empezó, toca «Descargar Kae» otra vez.");
+      // Sale antes de que Android pregunte: primero lo que hay que hacer, y reintentar solo si no funcionó.
+      decir("Confirma la descarga", "Si Android te pregunta, toca «Descargar». Cuando termine, toca «Abrir» y después «Instalar». ¿La cancelaste o no empezó? Vuelve a tocar el botón.");
       aviso.scrollIntoView({ block: "center" });
     });
   }

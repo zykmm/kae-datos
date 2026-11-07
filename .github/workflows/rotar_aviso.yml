@@ -1,0 +1,27 @@
+name: Rotar aviso de mudanza
+# Cada 6 h, sin el PC: cambia el número del aviso de la app vieja para que «Más tarde» deje de callarlo (nube/rotar_aviso.py).
+# Si el aviso no está activo, no hace nada.
+on:
+  schedule:
+    - cron: '41 */6 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: datos
+jobs:
+  rotar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install cryptography
+      - name: Firmar la config con el número nuevo
+        env:
+          CLAVE_DATOS: ${{ secrets.CLAVE_DATOS }}
+        run: python3 nube/rotar_aviso.py
+      - name: Publicar si cambió
+        run: |
+          git config user.name kae
+          git config user.email kae@users.noreply.github.com
+          git add datos.json
+          git diff --cached --quiet || (git commit -m "aviso: número nuevo" && git push)
