@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es" data-type="software">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Descargar Kae</title>
+<meta name="description" content="Kae, anime en español para Android. Más de 4 400 animes. Versión 4.0.0, 15 MB, Android 7 o superior.">
+<meta name="theme-color" content="#0b0b0b">
+<meta name="page-type" content="software">
+<meta name="site-kind" content="software">
+<meta property="og:title" content="Descargar Kae">
+<meta property="og:description" content="Anime en español para Android. Más de 4 400 animes.">
+<meta property="og:image" content="kae-bienvenida.jpg">
+<link rel="icon" href="icono.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;700&family=Lato:wght@400;700&display=swap">
+<style>
+/* Una cara: oscuro de la marca. Cada bloque sobre las mismas dos líneas (.wrap); primer bloque = solo lo que se instala y el botón. */
+:root {
+  --ink: #0b0b0b; --ink-2: #131615; --line: #262b2a; --text: #f2f2f0; --muted: #a9b2b0; --teal: #2fe6d6; --on-teal: #052a27;
+  --ease-out: cubic-bezier(.23, 1, .32, 1);
+  --display: "Lexend", "Segoe UI", system-ui, sans-serif; --body: "Lato", "Segoe UI", system-ui, sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--ink); color: var(--text); font: 400 17px/1.55 var(--body); padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.wrap { width: 100%; max-width: 1040px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+h1, h2 { font-family: var(--display); font-weight: 700; text-wrap: balance; margin: 0; letter-spacing: -.012em; }
+h1 { font-size: clamp(34px, 8.4vw, 58px); line-height: 1.06; }
+h2 { font-size: clamp(25px, 4.6vw, 34px); line-height: 1.14; }
+p { margin: 0; }
+.skip { position: absolute; left: 12px; top: -60px; background: var(--teal); color: var(--on-teal); padding: 10px 14px; border-radius: 10px; font-weight: 700; z-index: 5; }
+.skip:focus { top: 12px; }
+:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+
+.hero { padding-block: 28px 44px; }
+.hero .wrap { display: grid; gap: 34px; align-items: center; }
+.brand { display: flex; align-items: center; gap: 12px; margin-bottom: 26px; }
+.brand img { width: 56px; height: 56px; border-radius: 14px; display: block; }
+.brand svg { height: 25px; width: auto; display: block; }
+.lead { color: var(--muted); font-size: 19px; margin-top: 14px; max-width: 34ch; }
+.specs { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 22px 0; padding: 0; list-style: none; font-size: 15px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.specs b { color: var(--text); font-weight: 700; }
+.btn { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 58px; padding: 0 28px; border-radius: 15px; border: 0; background: var(--teal); color: var(--on-teal);
+  font: 700 18px var(--display); text-decoration: none; cursor: pointer; transition: background-color .2s ease, transform .16s var(--ease-out); width: 100%; -webkit-tap-highlight-color: transparent; }
+.btn svg { width: 22px; height: 22px; flex: none; }
+.btn:active { transform: scale(.97); }
+.guia { margin: 0 0 16px; padding: 14px 16px; border: 2px solid var(--teal); border-radius: 14px; background: #0a2e2b; font-size: 18px; line-height: 1.45; }
+.guia b { display: block; font: 700 19px var(--display); margin-bottom: 4px; }
+.side-note { font-size: 15px; color: var(--muted); margin-top: 12px; }
+.device { justify-self: center; width: min(68vw, 270px); aspect-ratio: 560 / 1158; border-radius: 30px; padding: 7px; background: #1b1f1e; box-shadow: 0 0 0 1px #303635, 0 34px 70px -32px rgba(47,230,214,.42); }
+.device img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 24px; }
+
+section.band { padding-block: 52px; border-top: 1px solid var(--line); }
+.band .intro { color: var(--muted); margin-top: 10px; max-width: 58ch; }
+.steps { list-style: none; counter-reset: paso; padding: 0; margin: 28px 0 0; display: grid; gap: 22px; }
+.steps li { counter-increment: paso; display: grid; grid-template-columns: 38px minmax(0, 1fr); gap: 14px; }
+.steps li::before { content: counter(paso); width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: #0a2e2b; color: var(--teal); font: 700 17px var(--display); }
+.steps b { display: block; font-size: 18px; line-height: 1.3; }
+.steps span { display: block; color: var(--muted); font-size: 16px; margin-top: 3px; }
+
+.log { margin: 26px 0 0; padding: 0; list-style: none; }
+.log li { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2px 26px; padding: 16px 0; border-top: 1px solid var(--line); }
+.log li:first-child { border-top: 0; }
+.log .ver { font: 700 17px var(--display); font-variant-numeric: tabular-nums; }
+.log .ver small { display: block; font: 400 14px var(--body); color: var(--muted); }
+.log p { color: var(--muted); font-size: 16px; }
+.log li:first-child p { color: var(--text); }
+
+.print { margin-top: 20px; font: 400 13.5px/1.6 ui-monospace, "Cascadia Mono", Consolas, monospace; background: var(--ink-2); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; word-break: break-all; }
+.ghost { margin-top: 12px; min-height: 48px; padding: 0 18px; background: transparent; color: var(--text); border: 1px solid #424948; border-radius: 12px; font: 700 15px var(--body); cursor: pointer; transition: border-color .2s ease, color .2s ease, transform .16s var(--ease-out); -webkit-tap-highlight-color: transparent; }
+.ghost.hecho { border-color: var(--teal); color: var(--teal); }
+.ghost:active { transform: scale(.97); }
+@media (hover: hover) and (pointer: fine) { .btn:hover { background: #63eee2; } .ghost:hover { border-color: var(--teal); } }
+footer { border-top: 1px solid var(--line); padding-block: 24px 34px; color: var(--muted); font-size: 14px; }
+
+@media (min-width: 720px) {
+  .hero { padding-block: 56px 64px; }
+  .hero .wrap { grid-template-columns: minmax(0, 1fr) 270px; gap: 56px; }
+  .device { width: 270px; }
+  .btn { width: auto; display: inline-flex; min-width: 300px; }
+  .band-split .wrap { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 56px; }
+  .band-split .steps, .band-split .log { margin-top: 0; }
+  .log li { grid-template-columns: 110px minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .enter { animation: entra .5s var(--ease-out) both; }
+  .device.enter { animation: entra-movil .6s var(--ease-out) .08s both; }
+  @keyframes entra { from { opacity: 0; transform: translateY(12px); } }
+  @keyframes entra-movil { from { opacity: 0; transform: translateY(16px) scale(.97); } }
+  .guia:not([hidden]) { animation: guia .28s var(--ease-out) both; transform-origin: 50% 100%; }
+  @keyframes guia { from { opacity: 0; transform: translateY(6px) scale(.98); } }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#instalar">Ir a los pasos de instalación</a>
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <div class="enter">
+        <div class="brand">
+          <img src="icono.svg" alt="Icono de Kae" width="56" height="56">
+          <svg viewBox="0 0 464 256" role="img" aria-label="kae"><g fill="none" stroke="#F2F2F0" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"><path d="M24 40 V184 M88 96 L26 150 M48 134 L90 184"/><circle cx="188" cy="140" r="44"/><path d="M232 96 V184"/><path d="M286 140 H374 A44 44 0 1 0 361.1 171.1"/></g><path fill="#2FE6D6" d="M424 40 Q427.9 66.1 454 70 Q427.9 73.9 424 100 Q420.1 73.9 394 70 Q420.1 66.1 424 40 Z"/></svg>
+        </div>
+        <h1>Anime en español para tu Android</h1>
+        <p class="lead">Más de 4 400 animes, con tu historial y Mi lista en tu cuenta de Google.</p>
+        <ul class="specs"><li>Versión <b>4.0.0</b></li><li><b>15 MB</b></li><li><b>Android 7</b> o superior</li></ul>
+        <div class="guia" id="aviso" role="status" aria-live="polite" hidden></div>
+        <a class="btn" id="descargar" href="/app/kae-4.0.0.apk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 20h16"/></svg>Descargar Kae</a>
+        <p class="side-note">¿Ya tienes Kae? Esta se instala a su lado. Luego puedes quitar la anterior.</p>
+      </div>
+      <div class="device enter"><img src="kae-bienvenida.jpg" alt="Pantalla de bienvenida de Kae con pósteres de anime y el botón Continuar con Google" width="560" height="1158"></div>
+    </div>
+  </section>
+
+  <section class="band band-split" id="instalar">
+    <div class="wrap">
+      <div>
+        <h2>Cómo instalar Kae</h2>
+        <p class="intro">Kae no está en Play Store, así que Android te pide confirmar. Son cuatro pasos y solo se hace una vez.</p>
+      </div>
+      <ol class="steps">
+        <li><div><b>Abre el archivo descargado</b><span>Toca kae-4.0.0.apk en la notificación de la descarga.</span></div></li>
+        <li><div><b>Permite instalar desde el navegador</b><span>Si Android te lo pide, activa el interruptor y vuelve atrás.</span></div></li>
+        <li><div><b>Confirma en Play Protect</b><span>Si avisa de una app desconocida, toca «Más detalles» e «Instalar de todos modos».</span></div></li>
+        <li><div><b>Abre Kae e inicia sesión con Google</b><span>Tu historial y Mi lista vuelven solos. Sin cuenta, empiezas de cero.</span></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="band band-split" id="novedades">
+    <div class="wrap">
+      <div>
+        <h2>Actualizaciones</h2>
+        <p class="intro">Desde esta versión, las siguientes se instalan desde la propia app.</p>
+      </div>
+      <ol class="log">
+        <li><div class="ver">4.0.0<small>nov 2026</small></div><p>Sinopsis en español, historial con todos los episodios vistos y, si el teléfono cierra la app, vuelves al episodio donde estabas.</p></li>
+        <li><div class="ver">3.6.0<small>oct 2026</small></div><p>Botón de episodio anterior, autoavance fiable al terminar, sincronización entre dispositivos, reproductor más limpio en vertical y portadas HD de especiales y temporadas nuevas.</p></li>
+        <li><div class="ver">3.5.5<small>oct 2026</small></div><p>Inicio y pantalla de bienvenida con imágenes al instante, también en tabletas.</p></li>
+        <li><div class="ver">3.5.4<small>oct 2026</small></div><p>Explorar y portadas al instante, carrusel centrado en los personajes y arreglos de seguridad.</p></li>
+        <li><div class="ver">3.5<small>oct 2026</small></div><p>Saltos de opening y ending que se actualizan solos, portadas nuevas sin esperar, app más ligera y actualizaciones desde la app.</p></li>
+        <li><div class="ver">3.1<small>oct 2026</small></div><p>Los episodios vistos seguidos ya quedan marcados, selección más clara en Mis listas y controles que responden más rápido.</p></li>
+        <li><div class="ver">3.0<small>oct 2026</small></div><p>Diseño nuevo en toda la app y reproductor renovado: doble toque para adelantar y los controles no se ocultan al arrastrar la barra.</p></li>
+        <li><div class="ver">2.0<small>oct 2026</small></div><p>Logos y portadas HD por temporada, cambio automático a servidores que funcionan e imagen HD en la notificación.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="band" id="firma">
+    <div class="wrap">
+      <h2>La firma de Kae</h2>
+      <p class="intro">Cada versión oficial lleva esta huella SHA-256. Es la que se comprueba con herramientas como apksigner o una app que lea certificados.</p>
+      <p class="print" id="huella">EE:94:CD:52:E6:F1:94:DC:98:23:7E:50:8F:CE:1A:D9:4F:CB:28:BF:0A:9F:86:31:33:B7:87:F8:9C:AD:C2:36</p>
+      <button class="ghost" id="copiar" type="button">Copiar la huella</button>
+    </div>
+  </section>
+</main>
+<footer><div class="wrap">Kae · com.kae.app</div></footer>
+<script>
+// Una web no puede instalar una app ni saber si está instalada: guía a la persona paso a paso según su dispositivo.
+(function () {
+  const ua = navigator.userAgent;
+  const aviso = document.getElementById("aviso");
+  const boton = document.getElementById("descargar");
+  const decir = (titulo, texto) => {
+    aviso.innerHTML = "";
+    const b = document.createElement("b"); b.textContent = titulo;
+    aviso.append(b, document.createTextNode(texto));
+    aviso.hidden = false;
+  };
+  const android = ua.match(/Android (\d+)/);
+  if (!/Android/i.test(ua)) {
+    decir("Kae es para celulares y tabletas Android", "Abre esta página en tu Android para instalarla.");
+    boton.hidden = true; boton.style.display = "none";
+  } else if (android && Number(android[1]) < 7) {
+    decir("Tu Android es muy antiguo", "Kae necesita Android 7 o superior.");
+    boton.hidden = true; boton.style.display = "none";
+  } else {
+    boton.addEventListener("click", () => {
+      decir("Ya se está descargando", "Cuando termine, toca «Abrir» y después «Instalar». Si no ves «Abrir», mira tus notificaciones.");
+      aviso.scrollIntoView({ block: "center" });
+    });
+  }
+})();
+document.getElementById("copiar").addEventListener("click", async (e) => {
+  const texto = document.getElementById("huella").textContent;
+  try { await navigator.clipboard.writeText(texto); e.target.textContent = "Huella copiada"; e.target.classList.add("hecho"); }
+  catch (_) { const r = document.createRange(); r.selectNodeContents(document.getElementById("huella")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); e.target.textContent = "Selecciónala y cópiala"; }
+});
+</script>
+</body>
+</html>
