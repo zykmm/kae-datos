@@ -3,6 +3,10 @@
 La 3.6.1 calla el aviso por número de versión al tocar «Más tarde»: con otro número, vuelve a salir. Los teléfonos consultan
 Cloudflare Y GitHub y se quedan con la config firmada más nueva, así que basta con firmarla aquí; publicar.py usa el mismo
 cálculo, de modo que nunca baja el número. Si el aviso no está activo no toca nada.
+
+`emitido` sube solo 1 s, no a la hora actual: esto vuelve a firmar lo que haya en el espejo y, si está atrasado (falló su
+subida), con la hora actual ganaría a lo más nuevo de Cloudflare y devolvería a los teléfonos saltos y dominio viejos. Con +1
+gana a su misma copia de Cloudflare (en un empate se quedan con la primera) y nunca a una publicación posterior.
 """
 import base64
 import json
@@ -29,7 +33,7 @@ def main():
         print(f'el número ya es {app.get("versionCode")}')
         return
     app['versionCode'] = tanda
-    cfg['emitido'] = int(time.time())
+    cfg['emitido'] = cfg.get('emitido', 0) + 1
     cuerpo = json.dumps(cfg, ensure_ascii=False, separators=(',', ':'))
     clave = serialization.load_pem_private_key(os.environ['CLAVE_DATOS'].encode(), password=None)
     firma = clave.sign(cuerpo.encode('utf-8'), ec.ECDSA(hashes.SHA256()))
