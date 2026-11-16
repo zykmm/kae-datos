@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /nueva/
+Disallow: /
+
+Sitemap: https://kaes.pages.dev/sitemap.xml
