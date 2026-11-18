@@ -5,6 +5,7 @@ el dominio no se mudó. Si el estado CAMBIA (deja de funcionar o vuelve) avisa a
 El estado se guarda en `nube/estado.json` del propio repo (lo sube el workflow).
 """
 import json
+import time
 import os
 import pathlib
 import re
@@ -16,10 +17,17 @@ AQUI = pathlib.Path(__file__).resolve().parent
 ESTADO = AQUI / 'estado.json'
 
 
-def get(url):
+def get(url, intentos=3):
+    """Con reintentos (17-nov-2026: AnimeAV1 tarda a ratos más de 30 s en una página que otras veces da en 1 s)."""
     req = urllib.request.Request(url, headers={'User-Agent': UA, 'Accept-Language': 'es-419,es;q=0.9'})
-    with urllib.request.urlopen(req, timeout=30) as r:
-        return r.geturl(), r.read().decode('utf-8', 'replace')
+    for n in range(intentos):
+        try:
+            with urllib.request.urlopen(req, timeout=45) as r:
+                return r.geturl(), r.read().decode('utf-8', 'replace')
+        except OSError:
+            if n == intentos - 1:
+                raise
+            time.sleep(15 * (n + 1))
 
 
 def dominio_actual():
