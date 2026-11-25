@@ -58,12 +58,18 @@ def comprobar(base):
     return fallos
 
 
-def avisar(titulo, texto):
+#: Workflow «Cambiar fuente» (25-nov-2026): el botón del aviso lo abre para pasar todas las apps a JKAnime o devolverlas.
+CAMBIAR_FUENTE = 'https://github.com/zykmm/kae-datos/actions/workflows/cambiar_fuente.yml'
+
+
+def avisar(titulo, texto, boton=None):
     tema = os.environ.get('NTFY_TEMA', '').strip()
     if not tema:
         return
-    req = urllib.request.Request(f'https://ntfy.sh/{tema}', data=texto.encode('utf-8'),
-                                 headers={'Title': titulo.encode('ascii', 'ignore').decode(), 'Tags': 'kae'})
+    cabeceras = {'Title': titulo.encode('ascii', 'ignore').decode(), 'Tags': 'kae'}
+    if boton:
+        cabeceras['Actions'] = f'view, {boton}, {CAMBIAR_FUENTE}'
+    req = urllib.request.Request(f'https://ntfy.sh/{tema}', data=texto.encode('utf-8'), headers=cabeceras)
     urllib.request.urlopen(req, timeout=20).read()
 
 
@@ -75,10 +81,13 @@ def main():
         fallos = [f'sin respuesta de {base}: {e}']
     antes = json.loads(ESTADO.read_text()) if ESTADO.exists() else {'fallos': []}
     if fallos != antes.get('fallos'):
+        caido = any(f.startswith('sin respuesta') for f in fallos)
         if fallos:
-            avisar('Kae: AnimeAV1 cambio', '\n'.join(fallos) + '\n\nCambiar dominio: GitHub > kae-datos > Actions > Cambiar dominio')
+            avisar('Kae: AnimeAV1 cambio', '\n'.join(fallos) + '\n\nCambiar dominio: GitHub > kae-datos > Actions > Cambiar dominio',
+                   boton='Cambiar a respaldo' if caido else None)
         else:
-            avisar('Kae: todo bien otra vez', f'AnimeAV1 ({base}) se lee bien.')
+            avisar('Kae: todo bien otra vez', f'AnimeAV1 ({base}) se lee bien. Si pasaste las apps a respaldo: botón → '
+                   'Run workflow → fuente: animeav1.', boton='Volver a AnimeAV1')
         ESTADO.write_text(json.dumps({'fallos': fallos}, ensure_ascii=False), encoding='utf-8')
     print('OK' if not fallos else 'FALLOS: ' + ' | '.join(fallos))
 

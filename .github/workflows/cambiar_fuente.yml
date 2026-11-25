@@ -1,0 +1,36 @@
+name: Cambiar fuente
+# Desde el móvil (botón del aviso «AnimeAV1 caído» de ntfy, o GitHub → zykmm/kae-datos → Actions → «Cambiar fuente» →
+# Run workflow): pasa TODAS las apps a JKAnime (fuente de respaldo) o las devuelve a AnimeAV1. Firma la config con el
+# secreto CLAVE_DATOS y la publica aquí; las apps la releen al notar AnimeAV1 caído (y, si no, en ≤ 1 h). 25-nov-2026.
+on:
+  workflow_dispatch:
+    inputs:
+      fuente:
+        description: 'jkanime = respaldo para todos · animeav1 = volver a lo normal'
+        required: true
+        type: choice
+        options:
+          - jkanime
+          - animeav1
+        default: jkanime
+permissions:
+  contents: write
+concurrency: datos
+jobs:
+  cambiar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install cryptography
+      - name: Firmar la config con la fuente nueva
+        env:
+          CLAVE_DATOS: ${{ secrets.CLAVE_DATOS }}
+        run: python3 nube/cambiar_fuente.py "${{ github.event.inputs.fuente }}"
+      - name: Publicar
+        run: |
+          git config user.name kae
+          git config user.email kae@users.noreply.github.com
+          git add datos.json
+          git commit -m "fuente: ${{ github.event.inputs.fuente }}"
+          git push
